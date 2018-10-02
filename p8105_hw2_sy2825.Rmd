@@ -9,3 +9,17 @@ date: "2018-10-02"
 ```{r setup, include = FALSE}
 library(tidyverse)
 ```
+# Problem 1
+For this problem we will focus on a NYC Transit data. First, let's input and clean the data.
+
+```{r}
+NYC_Transit_data = 
+  read.csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
+  janitor::clean_names() %>%
+  select(line:route11, entry, vending, entrance_type, ada) %>%
+  mutate(
+    entry = ifelse(entry == "YES", TRUE, FALSE)
+  )
+
+```
+I have imported the data and used `select` function to select the data I need, I have also converted the entry variable from character to a logical variable with `ifelse` function. Now the variables in this dataset are line, station name, station latitude, station longitude, routes served, entry, vending, entrance type, and ADA compliance. And the dimension of this dataset is `r dim(NYC_Transit_data)`. These data are not tidy.
