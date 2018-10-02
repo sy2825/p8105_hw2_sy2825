@@ -23,3 +23,28 @@ NYC_Transit_data =
 
 ```
 I have imported the data and used `select` function to select the data I need, I have also converted the entry variable from character to a logical variable with `ifelse` function. Now the variables in this dataset are line, station name, station latitude, station longitude, routes served, entry, vending, entrance type, and ADA compliance. And the dimension of this dataset is `r dim(NYC_Transit_data)`. These data are not tidy.
+
+*How many distinct stations are there?
+
+Answer: There are `r nrow(
+        distinct(NYC_Transit_data, station_name, line)
+        )` distinct stations（used inline code).
+
+
+
+
+*How many stations are ADA compliant?
+
+Answer: There are `r nrow(
+        filter(NYC_Transit_data, ada == TRUE) %>%
+        distinct(station_name, line)
+        )` stations are ADA compliant (used inline code).
+
+
+*What proportion of station entrances / exits without vending allow entrance?
+
+
+Answer: The proportion is `r nrow(
+        filter(NYC_Transit_data, vending == "NO") %>%
+        distinct(station_name, line)
+        ) / 465` (used inline code).
