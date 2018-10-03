@@ -12,7 +12,7 @@ library(tidyverse)
 # Problem 1
 For this problem we will focus on a NYC Transit data. First, let's input and clean the data.
 
-```{r}
+```{r NYC_Transit_data}
 NYC_Transit_data = 
   read.csv(file = "./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>%
   janitor::clean_names() %>%
@@ -26,25 +26,58 @@ I have imported the data and used `select` function to select the data I need, I
 
 *How many distinct stations are there?
 
-Answer: There are `r nrow(
-        distinct(NYC_Transit_data, station_name, line)
-        )` distinct stations（used inline code).
+```{r distinct_stations}
+nrow(
+      distinct(NYC_Transit_data, station_name, line)
+        )
+```
+So there are 465 distinct stations.
 
 
 
 
 *How many stations are ADA compliant?
 
-Answer: There are `r nrow(
-        filter(NYC_Transit_data, ada == TRUE) %>%
-        distinct(station_name, line)
-        )` stations are ADA compliant (used inline code).
-
+```{r ADA_compliant}
+nrow(
+      filter(NYC_Transit_data, ada == TRUE) %>%
+      distinct(station_name, line)
+        )
+```
+So there are 84 stations are ADA compliant.
 
 *What proportion of station entrances / exits without vending allow entrance?
 
 
-Answer: The proportion is `r nrow(
-        filter(NYC_Transit_data, vending == "NO") %>%
-        distinct(station_name, line)
-        ) / 465` (used inline code).
+```{r vending_proportion} 
+nrow(
+      filter(NYC_Transit_data, vending == "NO") %>%
+      distinct(station_name, line)
+        ) / 465 
+```
+So the proportion is about 21.3%.       
+
+Now let's reformat the data to make route number and route name are distinct variables.
+
+```{r}
+NYC_Transit_data_reformat = gather(NYC_Transit_data, key = "route_number", value = "route_name", route1:route11)
+```
+*How many distinct stations serve the A train? Of the stations that serve the A train, how many are ADA compliant?
+
+```{r Stations_serve_A_train}
+nrow(
+      filter(NYC_Transit_data_reformat, route_name == "A") %>%
+      distinct(station_name, line)
+        )
+```
+So there are 60 distinct stations serve the A train.
+
+```{r A_train_ADA_compliant}
+nrow(
+     filter(NYC_Transit_data_reformat, route_name == "A", ada == TRUE) %>%
+      distinct(station_name, line)
+)
+
+```
+So 17 of the distinct stations whcih serves the A train are ADA compliant.
+
