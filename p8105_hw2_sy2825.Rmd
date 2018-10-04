@@ -101,8 +101,45 @@ Mr.Trash_Whell_data = readxl::read_excel(
   ))
 
 ```
+We have imported and cleaned the Mr. Trash Wheel data.
+
+Now let's import and clean the precipitation data for 2016.
+
+```{r precipitation_data_2016}
+precipitation_data_2016 = readxl::read_excel(
+  path = "./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+   sheet = "2016 Precipitation", range = "A2:B14") %>%
+  janitor::clean_names() %>%
+   filter(!is.na(total)) %>%
+ mutate(year = "2016") %>%
+  rename(precipitation = total)
+
+```
 
 
+Then we import and clean the precipitation data for 2017.
 
+```{r precipitation_data_2017}
+precipitation_data_2017 = readxl::read_excel(
+  path = "./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+   sheet = "2017 Precipitation", range = "A2:B14") %>%
+  janitor::clean_names() %>%
+   filter(!is.na(total)) %>%
+ mutate(year = "2017") %>%
+  rename(precipitation = total)
+
+```
+Now let's combine the two datasets for 2016 and 2017.
+
+```{r precipitation_data_2016_and_2017}
+precipitation_data_2016_and_2017 = rbind(precipitation_data_2016, precipitation_data_2017) %>%
+  select(year, month, precipitation) %>%
+  arrange(month) %>%
+  mutate(month = month.name[month])
+                                         
+```
+There are `r nrow(Mr.Trash_Whell_data)` observations in the Mr. Trash Whell data. The precipitation data for 2016 contains `r nrow(precipitation_data_2016)` obervations while the precipitation data for 2017 contains `r nrow(precipitation_data_2017)`. In total the combined dataset there are `r nrow(precipitation_data_2016)` observations and the key variables are year, month, and precipitation. The total precipitation in 2017 is `r sum(precipitation_data_2017$precipitation)`. The median number of sports balls in a dumpster in 2016 is `r median(Mr.Trash_Whell_data %>% 
+filter(year == "2016") %>% 
+pull(sports_balls))`.
 
 
