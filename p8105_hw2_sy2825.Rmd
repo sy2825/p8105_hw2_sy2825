@@ -91,7 +91,7 @@ First let's import and clean the data.
 
 ```{r Mr.Trash_Wheel_data}
 Mr.Trash_Whell_data = readxl::read_excel(
-  path = "./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+  path = "./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
    sheet = "Mr. Trash Wheel",
   range = cell_cols("A:N")) %>%
   janitor::clean_names() %>%
@@ -107,7 +107,7 @@ Now let's import and clean the precipitation data for 2016.
 
 ```{r precipitation_data_2016}
 precipitation_data_2016 = readxl::read_excel(
-  path = "./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+  path = "./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
    sheet = "2016 Precipitation", range = "A2:B14") %>%
   janitor::clean_names() %>%
    filter(!is.na(total)) %>%
@@ -121,7 +121,7 @@ Then we import and clean the precipitation data for 2017.
 
 ```{r precipitation_data_2017}
 precipitation_data_2017 = readxl::read_excel(
-  path = "./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx",
+  path = "./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
    sheet = "2017 Precipitation", range = "A2:B14") %>%
   janitor::clean_names() %>%
    filter(!is.na(total)) %>%
