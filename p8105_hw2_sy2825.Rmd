@@ -142,4 +142,23 @@ There are `r nrow(Mr.Trash_Whell_data)` observations in the Mr. Trash Whell data
 filter(year == "2016") %>% 
 pull(sports_balls))`.
 
+In the end let's import and clean the precipitation data for 2018.
+
+```{r precipitation_data_2018}
+precipitation_data_2018 = readxl::read_excel(
+  path = "./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx",
+   sheet = "2018 Precipitation", range = "A2:B14") %>%
+  janitor::clean_names() %>%
+   filter(!is.na(total)) %>%
+ mutate(year = "2018") %>%
+  rename(precipitation = total)
+
+```
+
+# Problem 3
+
+In this problem we will focus on the BRFSS data from `p8105.datasets` package. So first let's install the package we need.
+```{r install_p8105.datasets_package}
+devtools::install_github("p8105/p8105.datasets")
+```
 
