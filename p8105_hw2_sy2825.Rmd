@@ -161,4 +161,22 @@ In this problem we will focus on the BRFSS data from `p8105.datasets` package. S
 ```{r install_p8105.datasets_package}
 devtools::install_github("p8105/p8105.datasets")
 ```
+Now let's import and clean the BRFSS data.
+
+```{r BRFSS}
+library(p8105.datasets)
+
+data(brfss_smart2010)
+
+brfss_clean = janitor::clean_names(brfss_smart2010) %>%
+  rename(state = locationabbr, state_and_county = locationdesc, lower_confidence_limit = confidence_limit_low, 
+         higher_confidence_limit = confidence_limit_high) %>%
+  filter(topic == "Overall Health") %>%
+  select(-class, -topic, -question, -sample_size, -(lower_confidence_limit:geo_location)) %>%
+  spread(key = response, value = data_value) %>%
+  janitor::clean_names() %>%
+  mutate(excellent_or_very_good = excellent + very_good)
+
+```
+
 
